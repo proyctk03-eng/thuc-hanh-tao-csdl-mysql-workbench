@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Thực Hành] Tạo CSDL Trên MySQL Workbench | Nguyễn Tuấn Đạt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #111827;
+      --card-border: #1f2937;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #06b6d4;
+      --success: #10b981;
+      --code-bg: #030712;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #60a5fa, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .meta-box {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #60a5fa;
+    }
+
+    ol, ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      padding: 1.2rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin: 1rem 0;
+      position: relative;
+    }
+
+    .code-comment {
+      color: #6b7280;
+    }
+
+    .code-keyword {
+      color: #f43f5e;
+      font-weight: 600;
+    }
+
+    .img-preview {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      margin-top: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-copy {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #e2e8f0;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-copy:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <span class="badge">BÀI THỰC HÀNH CSDL MYSQL WORKBENCH</span>
+      <h1>Tạo Cơ Sở Dữ Liệu Trên MySQL Workbench</h1>
+      <p class="subtitle">Thực hành hoàn chỉnh 2 phương pháp: Giao diện đồ họa (GUI) & Câu lệnh SQL Query</p>
+      
+      <div class="meta-box">
+        <div class="meta-item">👤 <strong>Học viên:</strong> Nguyễn Tuấn Đạt</div>
+        <div class="meta-item">🐙 <strong>GitHub:</strong> <a href="https://github.com/proyctk03-eng" target="_blank" style="color:#60a5fa;">proyctk03-eng</a></div>
+        <div class="meta-item">✅ <strong>Trạng thái:</strong> 100% Hoàn thành</div>
+      </div>
+    </header>
+
+    <!-- CÁCH 1 -->
+    <div class="section-card">
+      <h2>🛠️ Cách 1: Tạo CSDL Sử Dụng Giao Diện Đồ Họa (GUI Wizard)</h2>
+      <ol>
+        <li>Bật <strong>MySQL Workbench</strong> và đăng nhập vào kết nối <code>Local instance 3306</code> (user: <code>root</code>).</li>
+        <li>Trên thanh công cụ Toolbar, click vào biểu tượng <strong>"Create a new schema in the connected server"</strong> (hình trụ CSDL có dấu cộng).</li>
+        <li>Tại form thiết lập:
+          <ul>
+            <li><strong>Name:</strong> Nhập <code>my_database1</code></li>
+            <li><strong>Charset:</strong> Chọn <code>utf8mb4</code> (hỗ trợ tiếng Việt đầy đủ)</li>
+            <li><strong>Collation:</strong> Chọn <code>Default Collation</code> (utf8mb4_unicode_ci)</li>
+          </ul>
+        </li>
+        <li>Nhấn nút <strong>Apply</strong> ở góc dưới bên phải.</li>
+        <li>Cửa sổ Review Script hiện ra câu lệnh sinh tự động:
+          <div class="code-block">
+            <span class="code-keyword">CREATE SCHEMA</span> `my_database1` <span class="code-keyword">DEFAULT CHARACTER SET</span> utf8mb4 <span class="code-keyword">COLLATE</span> utf8mb4_unicode_ci ;
+          </div>
+        </li>
+        <li>Tiếp tục nhấn <strong>Apply</strong> rồi nhấn <strong>Finish</strong> để hoàn tất tạo CSDL mới.</li>
+      </ol>
+
+      <img src="mysql_workbench_gui_create_schema.png" alt="Tạo CSDL bằng GUI" class="img-preview">
+    </div>
+
+    <!-- CÁCH 2 -->
+    <div class="section-card">
+      <h2>⚡ Cách 2: Tạo CSDL Sử Dụng Câu Lệnh SQL (Query Editor)</h2>
+      <ol>
+        <li>Trong cửa sổ MySQL Workbench, nhấn chọn biểu tượng <strong>New Query Tab</strong> hoặc nhấn tổ hợp phím <code>Ctrl + T</code>.</li>
+        <li>Tại cửa sổ soạn thảo mới, nhập câu lệnh theo yêu cầu đề bài:
+          <div class="code-block">
+            <button class="btn-copy" onclick="navigator.clipboard.writeText('CREATE DATABASE `my_database1`;')">Sao chép</button>
+            <span class="code-keyword">CREATE DATABASE</span> `my_database1`;
+          </div>
+        </li>
+        <li>Nhấn biểu tượng <strong>tia sét (Execute)</strong> hoặc tổ hợp phím <code>Ctrl + Enter</code> để chạy lệnh.</li>
+        <li>Kiểm tra panel <strong>Action Output</strong> ở góc dưới: Xuất hiện dấu tích xanh <code>[OK] CREATE DATABASE my_database1 - 1 row(s) affected</code>.</li>
+        <li>Nhấn nút <strong>Refresh</strong> ở mục <strong>SCHEMAS</strong>, CSDL <code>my_database1</code> đã được tạo thành công!</li>
+      </ol>
+
+      <img src="mysql_workbench_sql_query_create_database.png" alt="Tạo CSDL bằng SQL" class="img-preview">
+    </div>
+
+    <!-- MỞ RỘNG -->
+    <div class="section-card">
+      <h2>📊 Mở Rộng: Tạo Bảng & Kiểm Tra Dữ Liệu</h2>
+      <p>Kịch bản mở rộng quản lý sinh viên và phòng ban trong CSDL <code>my_database1</code>:</p>
+      
+      <div class="code-block">
+        <span class="code-comment">-- Kích hoạt CSDL vừa tạo</span><br>
+        <span class="code-keyword">USE</span> `my_database1`;<br><br>
+        <span class="code-comment">-- Xem dữ liệu sinh viên kết hợp JOIN phòng ban</span><br>
+        <span class="code-keyword">SELECT</span> s.`student_code`, s.`full_name`, s.`email`, d.`dept_name`<br>
+        <span class="code-keyword">FROM</span> `students` s<br>
+        <span class="code-keyword">JOIN</span> `departments` d <span class="code-keyword">ON</span> s.`dept_id` = d.`dept_id`;
+      </div>
+
+      <img src="mysql_workbench_schemas_and_table_query.png" alt="Kết quả kiểm tra dữ liệu" class="img-preview">
+    </div>
+
+    <footer>
+      <p>© 2026 Nguyễn Tuấn Đạt | GitHub Repository: <a href="https://github.com/proyctk03-eng/thuc-hanh-tao-csdl-mysql-workbench" target="_blank">thuc-hanh-tao-csdl-mysql-workbench</a></p>
+    </footer>
+  </div>
+
+</body>
+</html>
